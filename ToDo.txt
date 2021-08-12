@@ -1,0 +1,9 @@
+1 - pip install flask
+2 - pip3 install flask --> if pip is latest and not found
+3 - write code
+4 - if import flask has some error or underline so click on python on left down side and select intrepreter
+5 - write basic code and run FLASK_APP
+
+
+export FLASK_APP=main ==> main is file name
+flask run
