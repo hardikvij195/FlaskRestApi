@@ -4,6 +4,10 @@ from flask import Flask
 import os
 from flask import Flask, request, jsonify
 from firebase_admin import credentials, firestore, initialize_app
+from FirebaseIO import MCFunc
+from ModelIO import PredCluster
+import pandas as pd
+
 # If `entrypoint` is not defined in app.yaml, App Engine will look for an app
 # called `app` in `main.py`.
 app = Flask(__name__)
@@ -22,6 +26,15 @@ def create():
         e.g. json={'id': '1', 'title': 'Write a blog post'}
     """
     try:
+        x = MCFunc()
+        df = pd.DataFrame(x)
+        out = PredCluster(df)
+
+    # User 1 - Smoking , Non-Drinking , Female
+    ##100 Users => --U need to get me Top 50 Users that match her interests
+    # I'll get the users in list and i'll upload their data in recomm users
+
+
         id = request.json['id']
         todo_ref.document(id).set(request.json)
         return jsonify({"success": True}), 200
