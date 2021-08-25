@@ -7,12 +7,12 @@ from flask import Flask, request, jsonify
 from firebase_admin import credentials, firestore, initialize_app
 # import firebase
 # from FirebaseIO import MCFunc
-# from ModelIO import PredCluster
+from ModelIO import PredCluster
 # import pandas as pd
 from google.cloud import storage
 # from google.cloud.storage import app_identity
 import pandas as pd
-# import joblib
+import joblib
 # import logging
 # import os
 # import cloudstorage as gcs
@@ -74,17 +74,18 @@ def create():
             'Gender', '!=', gender)
         all_users = [doc.to_dict() for doc in all_users.stream()]
 
-        # model = joblib.load(r"/tmp/API_mini_model.joblib")
+        model = joblib.load(r"/tmp/API_mini_model.joblib")
         # x = MCFunc()
         df = pd.DataFrame(all_users)
-        # out = PredCluster(df)
+        out = PredCluster(df)
+        out = out.to_json()
 
         # User 1 - Smoking , Non-Drinking , Female
         # 100 Users => --U need to get me Top 50 Users that match her interests
         # I'll get the users in list and i'll upload their data in recomm users
 
         # todo_ref.document(id).set(request.json)
-        return jsonify(df), 200
+        return jsonify(out), 200
     except Exception as e:
         return f"An Error Occured: {e}"
 
