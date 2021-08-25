@@ -71,7 +71,7 @@ def create():
         name = request.json['Name']
         all_users = db.collection('root').where(
             'Gender', '!=', gender).get()
-        all_users = [doc.to_dict() for doc in all_users.stream()]
+        all_users = [doc.to_dict() for doc in all_users.get()]
 
         # model = joblib.load(r"/tmp/API_mini_model.joblib")
         # x = MCFunc()
