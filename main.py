@@ -7,10 +7,10 @@ from firebase_admin import credentials, firestore, initialize_app
 # from FirebaseIO import MCFunc
 # from ModelIO import PredCluster
 # import pandas as pd
-from google.cloud.storage import storage
+from google.cloud import storage
 # from google.cloud.storage import app_identity
 # import pandas as pd
-import joblib
+# import joblib
 # import logging
 # import os
 # import cloudstorage as gcs
