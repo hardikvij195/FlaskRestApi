@@ -26,6 +26,7 @@ app = Flask(__name__)
 cred = credentials.Certificate('key.json')
 default_app = initialize_app(cred)
 db = firestore.client()
+todo_ref = db.collection('todos')
 
 # model = []
 
@@ -70,8 +71,8 @@ def create():
         gender = request.json['Gender']
         name = request.json['Name']
         all_users = db.collection('root').where(
-            'Gender', '!=', gender).get()
-        # all_users = [doc.to_dict() for doc in all_users.stream()]
+            'Gender', '!=', gender)
+        all_users = [doc.to_dict() for doc in all_users.stream()]
 
         # model = joblib.load(r"/tmp/API_mini_model.joblib")
         # x = MCFunc()
@@ -83,29 +84,29 @@ def create():
         # I'll get the users in list and i'll upload their data in recomm users
 
         # todo_ref.document(id).set(request.json)
-        return jsonify(all_users.to_dict()), 200
+        return jsonify(all_users), 200
     except Exception as e:
         return f"An Error Occured: {e}"
 
 
-# @app.route('/list', methods=['GET'])
-# def read():
-#     """
-#         read() : Fetches documents from Firestore collection as JSON.
-#         todo : Return document that matches query ID.
-#         all_todos : Return all documents.
-#     """
-#     try:
-#         # Check if ID was passed to URL query
-#         todo_id = request.args.get('id')
-#         if todo_id:
-#             todo = todo_ref.document(todo_id).get()
-#             return jsonify(todo.to_dict()), 200
-#         else:
-#             all_todos = [doc.to_dict() for doc in todo_ref.stream()]
-#             return jsonify(all_todos), 200
-#     except Exception as e:
-#         return f"An Error Occured: {e}"
+@app.route('/list', methods=['GET'])
+def read():
+    """
+        read() : Fetches documents from Firestore collection as JSON.
+        todo : Return document that matches query ID.
+        all_todos : Return all documents.
+    """
+    try:
+        # Check if ID was passed to URL query
+        todo_id = request.args.get('id')
+        if todo_id:
+            todo = todo_ref.document(todo_id).get()
+            return jsonify(todo.to_dict()), 200
+        else:
+            all_todos = [doc.to_dict() for doc in todo_ref.stream()]
+            return jsonify(all_todos), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
 
 
 # @app.route('/update', methods=['POST', 'PUT'])
