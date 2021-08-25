@@ -8,6 +8,12 @@ from FirebaseIO import MCFunc
 from ModelIO import PredCluster
 import pandas as pd
 
+import logging
+import os
+import cloudstorage as gcs
+import webapp2
+#from google.appengine.api import app_identity
+
 # If `entrypoint` is not defined in app.yaml, App Engine will look for an app
 # called `app` in `main.py`.
 app = Flask(__name__)
@@ -16,6 +22,44 @@ cred = credentials.Certificate('key.json')
 default_app = initialize_app(cred)
 db = firestore.client()
 todo_ref = db.collection('todos')
+# model = []
+
+
+def hello_world():
+    import pandas as pd
+    import os
+    import joblib
+    from google.cloud import storage
+
+    BUCKET_NAME = 'testmodelrepo'
+    PROJECT_ID = 'testingprojects-b6504'
+    GCS_MODEL = 'API_mini_model.joblib'
+
+    client = storage.Client(PROJECT_ID)
+    bucket = client.get_bucket(BUCKET_NAME)
+    blob = bucket.blob(GCS_MODEL)
+
+    folder = '/tmp/'
+    if not os.path.exists(folder):
+        os.makedirs(folder)
+
+    blob.download_to_filename(folder + "mini_model_API.joblib")
+    model = joblib.load(r"/tmp/API_mini_model.joblib")
+    return model
+
+
+# def pred():
+#     global model
+#     try:
+#         if not model:
+#             model = hello_world()
+#             # model = joblib.load(r"/tmp/API_mini_model.joblib")
+#             return "Model Read"
+
+#         else:
+#             return "BigFat nothing"
+#     except Exception as e:
+#         return str(e)
 
 
 @app.route('/add', methods=['POST'])
@@ -26,17 +70,17 @@ def create():
         e.g. json={'id': '1', 'title': 'Write a blog post'}
     """
     try:
-        x = MCFunc()
-        df = pd.DataFrame(x)
-        out = PredCluster(df)
+        model = hello_world()
+        # x = MCFunc()
+        # df = pd.DataFrame(x)
+        # out = PredCluster(df)
 
     # User 1 - Smoking , Non-Drinking , Female
-    ##100 Users => --U need to get me Top 50 Users that match her interests
+    # 100 Users => --U need to get me Top 50 Users that match her interests
     # I'll get the users in list and i'll upload their data in recomm users
 
-
         id = request.json['id']
-        todo_ref.document(id).set(request.json)
+        # todo_ref.document(id).set(request.json)
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occured: {e}"
@@ -127,7 +171,3 @@ def getnum(n):
 @app.route("/api/name/<name>")
 def name(name):
     return name
-
-
-# if __name__ == "__main__":
-#     app.run(debug=True)

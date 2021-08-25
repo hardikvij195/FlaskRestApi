@@ -59,7 +59,7 @@ class FireBase:
         # print('uploading data')
         # Udpdate:
 
-        db.collection(u'DummyAIML').document(
+        db.collection(u'root').document(
             self.user_data["Id"]).collection(u'ClusterNo').set(self.user_data)
         # doc = self.users_ref.document(item.id) # doc is DocumentReference
         # field_updates = #jsonify the dataset
