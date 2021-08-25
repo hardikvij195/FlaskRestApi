@@ -76,7 +76,7 @@ def create():
 
         model = joblib.load(r"/tmp/API_mini_model.joblib")
         # x = MCFunc()
-        df = pd.DataFrame.to_dict(all_users)
+        df = pd.DataFrame.from_dict(all_users)
         out = PredCluster(df)
         out = out.to_json()
 
