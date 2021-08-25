@@ -7,7 +7,8 @@ from firebase_admin import credentials, firestore, initialize_app
 # from FirebaseIO import MCFunc
 # from ModelIO import PredCluster
 # import pandas as pd
-from google.cloud import storage
+from google.cloud.storage import storage
+# from google.cloud.storage import app_identity
 # import pandas as pd
 import joblib
 # import logging
@@ -61,7 +62,7 @@ def create():
             os.makedirs(folder)
 
         blob.download_to_filename(folder + "API_mini_model.joblib")
-        model = joblib.load(r"/tmp/API_mini_model.joblib")
+        # model = joblib.load(r"/tmp/API_mini_model.joblib")
         # x = MCFunc()
         # df = pd.DataFrame(x)
         # out = PredCluster(df)
