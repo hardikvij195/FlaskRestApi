@@ -77,15 +77,15 @@ def create():
         model = joblib.load(r"/tmp/API_mini_model.joblib")
         # x = MCFunc()
         df = pd.DataFrame(all_users)
-        out = PredCluster(df)
-        out = out.to_json()
+        # out = PredCluster(df)
+        # out = out.to_json()
 
         # User 1 - Smoking , Non-Drinking , Female
         # 100 Users => --U need to get me Top 50 Users that match her interests
         # I'll get the users in list and i'll upload their data in recomm users
 
         # todo_ref.document(id).set(request.json)
-        return jsonify(out), 200
+        return jsonify(all_users), 200
     except Exception as e:
         return f"An Error Occured: {e}"
 
