@@ -4,7 +4,7 @@ from flask import Flask
 import os
 from flask import Flask, request, jsonify
 from firebase_admin import credentials, firestore, initialize_app
-import firebase
+# import firebase
 # from FirebaseIO import MCFunc
 # from ModelIO import PredCluster
 # import pandas as pd
@@ -69,7 +69,7 @@ def create():
         gender = request.json['Gender']
         name = request.json['Name']
         all_users = db.collection('root').where(
-            firebase.firestore.FieldPath.documentId(), '!=', id).get()
+            db.FieldPath.documentId(), '!=', id).get()
         all_users = [doc.to_dict() for doc in all_users.stream()]
 
         # model = joblib.load(r"/tmp/API_mini_model.joblib")
