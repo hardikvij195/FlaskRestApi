@@ -6,3 +6,4 @@ google-cloud
 joblib==1.0.1
 pandas
 scikit-learn ==0.24.1
+firebase
