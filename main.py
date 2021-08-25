@@ -1,3 +1,4 @@
+import firebase_admin
 from flask import Flask
 
 # Required imports
@@ -69,7 +70,7 @@ def create():
         gender = request.json['Gender']
         name = request.json['Name']
         all_users = db.collection('root').where(
-            db.FieldPath.documentId(), '!=', id).get()
+            'Gender', '!=', gender).get()
         all_users = [doc.to_dict() for doc in all_users.stream()]
 
         # model = joblib.load(r"/tmp/API_mini_model.joblib")
