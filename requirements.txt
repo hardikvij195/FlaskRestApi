@@ -5,5 +5,5 @@ google-cloud-storage==1.30.0
 google-cloud
 joblib==1.0.1
 pandas
-scikit-learn ==0.24.1
-firebase
+scikit-learn==0.24.1
+firebase==3.0.1
