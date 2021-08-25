@@ -60,7 +60,7 @@ def create():
         if not os.path.exists(folder):
             os.makedirs(folder)
 
-        blob.download_to_filename(folder + "mini_model_API.joblib")
+        blob.download_to_filename(folder + "API_mini_model.joblib")
         model = joblib.load(r"/tmp/API_mini_model.joblib")
         # x = MCFunc()
         # df = pd.DataFrame(x)
@@ -126,24 +126,11 @@ def delete():
         return f"An Error Occured: {e}"
 
 
-port = int(os.environ.get('PORT', 8080))
-
+# port = int(os.environ.get('PORT', 8080))
 
 @app.route('/')
 def hello():
-    """Return a friendly HTTP greeting."""
     return 'Hello Hardik!'
-
-
-if __name__ == '__main__':
-    # This is used when running locally only. When deploying to Google App
-    # Engine, a webserver process such as Gunicorn will serve the app. This
-    # can be configured by adding an `entrypoint` to app.yaml.
-    app.run(threaded=True, host='127.0.0.1', port=8080, debug=True)
-
-# @app.route("/")
-# def hello_world():
-#     return "Hello, Hardik!"
 
 
 @app.route("/api/sum/")
@@ -162,3 +149,7 @@ def getnum(n):
 @app.route("/api/name/<name>")
 def name(name):
     return name
+
+
+if __name__ == '__main__':
+    app.run(threaded=True, host='127.0.0.1', port=8080, debug=True)
