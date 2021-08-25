@@ -83,7 +83,7 @@ def create():
         # I'll get the users in list and i'll upload their data in recomm users
 
         # todo_ref.document(id).set(request.json)
-        return jsonify(all_users), 200
+        return jsonify(all_users.to_dict()), 200
     except Exception as e:
         return f"An Error Occured: {e}"
 
