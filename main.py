@@ -30,8 +30,11 @@ db = firestore.client()
 @app.route('/add', methods=['POST'])
 def create():
     try:
-        BUCKET_NAME = 'testmodelrepo'
-        PROJECT_ID = 'testingprojects-b6504'
+        # BUCKET_NAME = 'testmodelrepo'
+        # PROJECT_ID = 'testingprojects-b6504'
+        
+        BUCKET_NAME = 'testx_model_repo'
+        PROJECT_ID = 'appsyntests-322514'
         GCS_MODEL = 'API_mini_model.joblib'
 
         client = storage.Client(PROJECT_ID)
