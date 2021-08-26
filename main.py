@@ -32,7 +32,7 @@ def create():
     try:
         # BUCKET_NAME = 'testmodelrepo'
         # PROJECT_ID = 'testingprojects-b6504'
-        
+
         BUCKET_NAME = 'testx_model_repo'
         PROJECT_ID = 'appsyntests-322514'
         GCS_MODEL = 'API_mini_model.joblib'
@@ -69,6 +69,23 @@ def create():
         # I'll get the users in list and i'll upload their data in recomm users
 
         return str(out), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
+
+
+@app.route('/list', methods=['POST'])
+def create():
+    try:
+
+        # id = request.json['id']
+        # smoking = request.json['Smoking']
+        # drinking = request.json['Drinking']
+        gender = request.json['Gender']
+        # name = request.json['Name']
+        all_users = db.collection('root').where('Gender', '!=', gender)
+        all_users = [doc.to_dict() for doc in all_users.stream()]
+
+        return jsonify(all_users), 200
     except Exception as e:
         return f"An Error Occured: {e}"
 
