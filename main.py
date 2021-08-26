@@ -1,3 +1,4 @@
+from FirebaseIO import SendD
 import os
 from flask import Flask, request, jsonify
 from firebase_admin import credentials, firestore, initialize_app
@@ -59,7 +60,7 @@ def create():
         out = PredCluster(df, name)
 
         out = out.to_json()
-
+        SendD(out, id)
         # User 1 - Smoking , Non-Drinking , Female
         # 100 Users => --U need to get me Top 50 Users that match her interests
         # I'll get the users in list and i'll upload their data in recomm users

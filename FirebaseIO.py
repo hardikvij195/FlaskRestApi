@@ -1,15 +1,15 @@
 # import pandas as pd
 # import numpy as np
 # import json
-# import firebase_admin
-# from firebase_admin import credentials
-# from firebase_admin import firestore
-# cred = credentials.Certificate("key.json")
-# try:
-#     firebase_admin.initialize_app(cred)
-# except:
-#     pass
-# db = firestore.client()
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
+cred = credentials.Certificate("key.json")
+try:
+    firebase_admin.initialize_app(cred)
+except:
+    pass
+db = firestore.client()
 
 
 # class FireBase:
@@ -55,3 +55,8 @@
 # def EAFunc(persona, id):
 #     x = FireBase()
 #     x.SendD(persona, id)
+
+def SendD(x, id):
+
+    db.collection(u'root').document(id).collection(u'MainFeed').document(u'FirstRun').set(x)
+    return 'MFList uploaded'
