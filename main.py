@@ -48,8 +48,8 @@ def create():
         drinking = request.json['Drinking']
         gender = request.json['Gender']
         name = request.json['Name']
-        all_users = db.collection('root').where(
-            'Gender', '!=', gender)
+        all_users = db.collection('root')
+        # .where('Gender', '!=', gender)
         all_users = [doc.to_dict() for doc in all_users.stream()]
 
         # model = joblib.load(r"/tmp/API_mini_model.joblib")
