@@ -74,14 +74,9 @@ def create():
 
 
 @app.route('/list', methods=['POST'])
-def create():
+def list():
     try:
-
-        # id = request.json['id']
-        # smoking = request.json['Smoking']
-        # drinking = request.json['Drinking']
         gender = request.json['Gender']
-        # name = request.json['Name']
         all_users = db.collection('root').where('Gender', '!=', gender)
         all_users = [doc.to_dict() for doc in all_users.stream()]
 
