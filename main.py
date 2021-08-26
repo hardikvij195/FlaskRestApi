@@ -2,50 +2,33 @@ import os
 from flask import Flask, request, jsonify
 from firebase_admin import credentials, firestore, initialize_app
 from google.cloud import storage
+from NewModelIO import PredCluster
+import pandas as pd
+
+
+# import joblib
+
 # from FirebaseIO import MCFunc
 # import firebase
 # from ModelIO import PredCluster
-# import pandas as pd
+
 # from google.cloud.storage import app_identity
 # import pandas as pd
-# import joblib
+
 # import logging
 # import cloudstorage as gcs
 # import webapp2
 # from google.appengine.api import app_identity
 
-# If `entrypoint` is not defined in app.yaml, App Engine will look for an app
-# called `app` in `main.py`.
 app = Flask(__name__)
 
 cred = credentials.Certificate('key.json')
 default_app = initialize_app(cred)
 db = firestore.client()
-# todo_ref = db.collection('todos')
-
-# model = []
-
-# def pred():
-#     global model
-#     try:
-#         if not model:
-#             model = hello_world()
-#             # model = joblib.load(r"/tmp/API_mini_model.joblib")
-#             return "Model Read"
-
-#         else:
-#             return "BigFat nothing"
-#     except Exception as e:
-#         return str(e)
 
 
 @app.route('/add', methods=['POST'])
 def create():
-    """
-        create() : Add document to Firestore collection with request body.
-        Ensure you pass a custom ID as part of json body in post request,
-        e.g. json={'id': '1', 'title': 'Write a blog post'}
-    """
     try:
         BUCKET_NAME = 'testmodelrepo'
         PROJECT_ID = 'testingprojects-b6504'
@@ -70,16 +53,19 @@ def create():
         all_users = [doc.to_dict() for doc in all_users.stream()]
 
         # model = joblib.load(r"/tmp/API_mini_model.joblib")
-        # # x = MCFunc()
-        # df = pd.DataFrame.from_dict(all_users)
-        # out = PredCluster(df)
-        # out = out.to_json()
+
+        df = pd.DataFrame.from_dict(all_users)
+        # df = df.drop('Name')
+        df.set_index("Name", inplace=True)
+        out = PredCluster(df, name)
+
+        out = out.to_json()
 
         # User 1 - Smoking , Non-Drinking , Female
         # 100 Users => --U need to get me Top 50 Users that match her interests
         # I'll get the users in list and i'll upload their data in recomm users
 
-        return jsonify(all_users), 200
+        return str(out), 200
     except Exception as e:
         return f"An Error Occured: {e}"
 
