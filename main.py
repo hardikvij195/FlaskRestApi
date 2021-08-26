@@ -1,3 +1,4 @@
+from FirebaseIO import MCFunc
 import firebase_admin
 from flask import Flask
 
@@ -74,21 +75,48 @@ def create():
             'Gender', '!=', gender)
         all_users = [doc.to_dict() for doc in all_users.stream()]
 
-        model = joblib.load(r"/tmp/API_mini_model.joblib")
-        # x = MCFunc()
-        df = pd.DataFrame.from_dict(all_users)
-        out = PredCluster(df)
-        out = out.to_json()
+        # model = joblib.load(r"/tmp/API_mini_model.joblib")
+        # # x = MCFunc()
+        # df = pd.DataFrame.from_dict(all_users)
+        # out = PredCluster(df)
+        # out = out.to_json()
 
         # User 1 - Smoking , Non-Drinking , Female
         # 100 Users => --U need to get me Top 50 Users that match her interests
         # I'll get the users in list and i'll upload their data in recomm users
 
         # todo_ref.document(id).set(request.json)
-        return str(out), 200
+        return jsonify(all_users), 200
     except Exception as e:
         return f"An Error Occured: {e}"
 
+
+@app.route('/list', methods=['GET'])
+def reader():
+
+    try:
+        data = MCFunc()
+        # filterData = data["Drinking", "Smoking", "Gender"]
+        drink = data["Drinking"]
+        smoke = data["Smoking"]
+        gen = data["Gender"]
+        uid = data["Id"]
+        return drink, smoke, gen, uid
+
+        # personalty = mbtiPred(collected["mbti"])
+        # uid = collected["Id"]
+        # EAFunc(personalty, uid)
+        # Check if ID was passed to URL query
+        # todo_id = request.args.get('id')
+        # if todo_id:
+        #     todo = todo_ref.document(todo_id).get()
+        #     return jsonify(todo.to_dict()), 200
+        # else:
+        #     all_todos = [doc.to_dict() for doc in todo_ref.stream()]
+        #     return jsonify(all_todos), 200
+        # return str(type(all_todos))
+    except Exception as e:
+        return str(e)
 
 # @app.route('/list', methods=['GET'])
 # def read():
