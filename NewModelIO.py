@@ -61,7 +61,7 @@ def PredCluster(user_data, user_n):
     # user_n = user_data1.index[0]
 
     likely_users = new_list[[user_n]].sort_values(
-        by=[user_n], axis=0, ascending=False)[1:21]
+        by=[user_n], axis=0, ascending=False)[1:16]
 
 #     df = pd.DataFrame(cluster_label,
 #             columns=['cluster'])

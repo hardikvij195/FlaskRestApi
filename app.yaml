@@ -1,4 +1,14 @@
 runtime: python39
+
+# runtime: python37
+# service: snow
+# instance_class: F4_1G
+env: flex
+resources:
+  cpu: 1
+  memory_gb: 16
+  disk_size_gb: 20
+
 # runtime: python
 # env: flex
 # entrypoint: gunicorn -b :$PORT main:app
